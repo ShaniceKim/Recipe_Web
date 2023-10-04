@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <head>
+    <meta charset="UTF-8">
+    <title>Wish List</title>
+    <!-- CSS only -->
+    <link rel="stylesheet"
+          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link th:href="@{/css/layout1.css}" rel="stylesheet">
+    <!-- JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <Script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></Script>
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <th:block layout:fragment="css">
+      <link th:href="@{/css/viewstyles.css}" rel="stylesheet" />
+    </th:block>
+    <title>Wish List</title>
+
+
+    <th:block layout:fragment="script">
+      <script th:inline="javascript">
+    $(document).ready(function(){
+        $("input[name=recipeChkBox]:checked").each(function(){
+            var shareId = $(this).val();
+            var data = new Object();
+            data["shareId"] = shareId;
+            dataList.push(data);
+          });
+
+          function checkAll(){
+        if($("#checkall").prop("checked")){
+            $("input[name=recipeChkBox]").prop("checked",true);
+        }
+        else {
+             $("input[name=recipeChkBox]").prop("checked",false);
+        }
+
+    }
+
+    function updateWishRecipe(wishRecipeId) {
+        var token = $("meta[name='_csrf']").attr("content");
+        var header =$("meta[name='_csrf_header']").attr("content");
+
+        var url ="/wishRecipe/" + wishRecipeId
+
+    $.ajax({
+        url : url,
+        type : "PATCH",
+        beforeSend : function(xhr){
+        /*데이터 전송하기 전에 헤더에 csrf 값을 설정*/
+        xhr.setRequestHeader(header, token);
+    },
+    dataType : "json",
+    cache : false,
+    success : function(jqXHR, status, error){
+        console.log("wishRecipe count update success");
+    },
+    error : function(jqXHR, status, error){
+        if(jqXHR.status == '401'){
+            alert('로그인 후 이용해주세요.');
+            location.href='/members/login';
+        }else{
+            alert(jqXHR.responseText);
+        }
+      }
+    });
+  }
+  function deleteWishRecipe(obj){
+        var wishRecipeId = obj.dataset.id;
+        var token =$("meta[name='_csrf']").attr("content");
+        var header =$("meta[name='_csrf_header']").attr("content");
+
+        var url = "/wishRecipe/" + wishRecipeId;
+
+        $.ajax({
+          url : url,
+          type : "DELETE",
+          beforeSend : function(xhr){
+            /*데이터 전송하기 전에 헤더에 csrf 값을 설정*/
+            xhr.setRequestHeader(header, token);
+          },
+          dataType : "json",
+          cache : false,
+          success : function(result, status){
+              location.href='/wishList';
+          },
+          error : function(jqXHR, status, error){
+            if(jqXHR.status == '401'){
+              alert('로그인 후 이용해주세요.');
+              location.href='/members/login';
+            }else{
+                alert(jqXHR.responseText);
+            }
+          }
+        });
+      }
+
+    </script>
+    </th:block>
+
+    <!--사용자 스크립트 추가-->
+    <th:block layout:fragment="css">
+      <Style>
+        select {
+        margin-right : 10px
+        }
+        footer {
+        position: fixed;
+        left: 0px;
+        bottom: 0px;
+        height: 120px;
+        width: 100%;
+  </Style>
+    </th:block>
+  </head>
+<body>
+<!--헤더-->
+<header class="py-5" style="background-color:#8DC4C0">
+  <div class="container px-4 px-lg-5 my-5" >
+    <div class="text-center text-white">
+      <h2 class="display-4 fw-bolder" >Wish List</h2>
+    </div>
+  </div>
+</header>
+<!-- Navigation-->
+<div th:replace="fragments/header::header"></div>
+<div layout:fragment="content">
+  <form th:action="@{'/mypage/wishList/'+${shares.number}}" role="form" method="get" th:object="${shares}">
+    <table class ="table">
+      <thread>
+        <tr>
+          <td>
+            <input type="checkbox" id="checkall" onclick="checkAll()">&nbsp 전체 선택</td>
+          <td>레시피</td>
+          <td>등록자</td>
+          <td>등록일</td>
+        </tr>
+      </thread>
+      <tbody>
+      <tr th:each="wishRecipe : ${wishRecipes}">
+        <td class="text-center align-middle">
+          <input type="checkbox" name="recipeChkBox" th:value="${wishRecipe.wishRecipeId}">
+        </td>
+        <td class="d-flex">
+          <div class="repImgDiv align-self-center">
+            <img th:src="${wishRecipe.imgUrl}" class="rounded repImg"
+                 th:alr="${wishRecipe.foodNm}">
+          </div>
+          <div class="align-self-center">
+            <span th:text="${wishRecipe.foodNm}" class="f24 font-size-weight-bold"></span>
+            <div class="fs18 font-weight-light">
+                <input type="number" name="count" th:id="'count_' + ${wishRecipe.wishRecipeId}"
+                       th:value="${cartItem.count}" min="1" onchange="changeCount(this)">
+                <button type="button" class="close" aria-label="Close">
+                  <span aria-hidden="true" th:data-id="${wishRecipe.wishRecipeId}"
+                        onclick="deleteWishRecipe(this)">&times;</span>
+                </button>
+              </span>
+            </div>
+          </div>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <div class="text-center mt-3">
+      <button type="button" class="btn btn-primary">삭제하기</button>
+    </div>
+
+    <div th:with="start=${(shares.number/maxPage)*maxPage +1},
+        end=(${(shares.totalPages == 0) ? 1 :
+        (start + (maxPage-1) < shares.totalPages ? start + (maxPage - 1) : shares.totalPages)})">
+    </div>
+
+  </form>
+</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="_csrf" th:content="${_csrf.token}">
+    <meta name="_csrf_header" th:content="${_csrf.headerName}">
+    <link rel="icon" type="image/x-icon" th:href="@{/assets/favicon.ico}">
+    <title>회원탈퇴</title>
+</head>
+<title>Sign-up</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+<script th:src="@{/js/popper.min.js}"></script>
+<script th:src="@{/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/main.js}"></script>
+<script src="https://use.fontawesome.com/releases/v6.1.0/js/all.js" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+<link rel="stylesheet" th:href="@{/css/loginstyle.css}">
+<link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+
+
+<th:block layout:fragment="css">
+    <link th:href="@{/css/viewstyles.css}" rel="stylesheet" />
+    <style>
+        .pw{
+        margin-top:5px;
+        margin-bottom:5px;
+        }
+        .error{
+        color: #bd2130;
+        }
+    </style>
+</th:block>
+
+<!--사용자 스크립터 추가-->
+<th:block block layout:fragment="script">
+    <script th:inline="javascript">
+    function functionAlert(){
+      alert("탈퇴가 완료되었습니다.");
+      }
+    </script>
+    </th:block>
+
+
+<div layout:fragment="content">
+    <div th:replace="fragments/header::header"></div>
+    <div class="d-lg-flex half">
+        <div class="bg order-1 order-md-2" style="background-image: url('/images/images/bg_1.jpg');"></div>
+        <div class="contents order-2 order-md-1">
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-7">
+                        <h1>회원탈퇴</h1>
+                        <br>
+                        <div class="inputbox">
+                            <p>더욱 더 발전한 모습으로 성장하여 고객님을 다시 뵐 수 있도록 노력하겠습니다. 저희 서비스를 이용해주셔서 진심으로 감사드립니다.</p>
+                        </div>
+
+                        <div class="delete-button">
+                            <form th:action="@{'/members/deleteme'}" role="form" method="post">
+
+                                <div>
+                                    <input type="password" name="password" class="form-control pw" placeholder="현재 비밀번호 입력" required/>
+                                </div>
+                                <br>
+                                <div>
+                                    <button type="submit" id="submitBtn" class="btn btn-block btn-primary" onclick="functionAlert()" value="탈퇴가 완료되었습니다." >회원탈퇴</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</html>

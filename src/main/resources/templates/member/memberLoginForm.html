@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+    <title>Login</title>
+    <!-- Required meta tags -->
+    <th:block layout:fragment="css">
+        <style>
+    .error{
+      color: #bd2130;
+     }
+  </style>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/css/owl.carousel.min.css}">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+        <!-- Style -->
+        <link rel="stylesheet" th:href="@{/css/loginstyle.css}">
+
+    </th:block>
+
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
+        <script th:src="@{/js/popper.min.js}"></script>
+        <script th:src="@{/js/bootstrap.min.js}"></script>
+        <script th:src="@{/js/main.js}"></script>
+    </th:block>
+    <th:block layout:fragment="css">
+        <link th:href="@{/css/viewstyles.css}" rel="stylesheet" />
+    </th:block>
+
+</head>
+
+<body>
+<div th:replace="fragments/header::header"></div>
+<div layout:fragment="content">
+    <div class="d-lg-flex half">
+        <div class="bg order-1 order-md-2" style="background-image: url('/images/images/bg_1.jpg');"></div>
+        <div class="contents order-2 order-md-1">
+            <div class="container">
+                <div class="row align-items-center justify-content-center">
+                    <div class="col-md-7">
+                        <h1>Sign in</h1>
+                        <br>
+                        <form action="/members/login" role="form" method="post">
+                            <div class="form-group first">
+                                <label th:for="email">Email</label>
+                                <input type="email" class="form-control" placeholder="이메일을 입력해주세요." name="email" id="email">
+                            </div>
+                            <div class="form-group last mb-3">
+                                <label th:for="password">Password</label>
+                                <input type="password" class="form-control" placeholder="비밀번호를 입력해주세요." name="password" id="password">
+                            </div>
+                            <p th:if="${loginErrorMsg}" class="error" th:text="${loginErrorMsg}"></p> <!--만약에 로그인에러나면 로그인에러메세지 호출-->
+                            <br>
+                            <button class="btn btn-block btn-primary">LogIn</button>
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

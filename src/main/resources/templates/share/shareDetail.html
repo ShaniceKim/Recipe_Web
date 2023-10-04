@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+  <title>중식</title>
+
+
+
+  <th:block layout:fragment="script">
+    <script th:src="@{/js/jquery.min.js}"></script>
+    <script th:src="@{/js/browser.min.js}"></script>
+    <script th:src="@{/js/breakpoints.min.js}"></script>
+    <script th:src="@{/js/util.js}"></script>
+    <script th:src="@{/js/main2.js}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script th:src="@{/js/scripts.js}"></script>
+  </th:block>
+
+
+  <th:block layout:fragment="css">
+    <!--=====================12월7일에 추가한 css=========================================-->
+    <!--      <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">-->
+    <!--      <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">-->
+    <!--      <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">-->
+    <!--      <link rel="stylesheet" type="text/css" href="vendor/slick/slick.css">-->
+    <!--      <link rel="stylesheet" type="text/css" href="vendor/MagnificPopup/magnific-popup.css">-->
+    <!--      <link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">-->
+    <!--      <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">-->
+    <!--      <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">-->
+    <!--      <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">-->
+    <!--      <link rel="stylesheet" type="text/css" href="css/util.css">-->
+    <!--      <link rel="stylesheet" type="text/css" href="css/main.css">-->
+    <!--===============================================================================-->
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link th:href="@{/css/browsestyles.css}" rel="stylesheet" />
+    <link th:href="@{/css/viewstyles.css}" rel="stylesheet" />
+
+    <style>
+      .ingredients{
+        width: fit-content;
+        margin-bottom: 30px;
+      }
+
+      .recipe{
+       width: fit-content;
+      }
+
+      .ptag{
+        border-color: #64A19D;
+        border-radius: 20px;
+      }
+
+      footer{
+        position : absolute;
+        bottom : 0;
+        width: 100%;
+      }
+      .food-img{
+        margin: 20px;
+      }
+      .main-content{
+        width: 100%;
+        height:500px;
+        position : relative;
+        top: 2px;
+        bottom:0;
+        left:10%:
+        right:10%;
+      }
+
+      .content-box{
+      padding-top: 15px;
+      padding-left: 20px;
+        padding-bottom: 15px;
+          position : relative;
+          top:50px;
+          left: 13%;
+          right: 25%;
+          width: 75%;
+          border-radius: 20px;
+          background-color:rgba(239, 218, 189, 0.7);
+      }
+      .row{
+      display: flex;
+      flex-direction: row;
+      height: auto;
+      }
+
+    </style>
+  </th:block>
+</head>
+
+<body class="is-preload">
+<div th:replace="fragments/header::header"></div>
+<div layout:fragment="content">
+  <header class="py-4" style="background-color:#8DC4C0">
+    <div class="container px-4 px-lg-5 my-5" >
+    </div>
+  </header>
+  <!--======================메인 시작============================================-->
+  <div class="main-content">
+    <div class="content-box">
+      <div class="row" >
+        <!--===================Left(음식사진)============================================-->
+        <div class="col-md-4 p-b--30" style="flex-grow: 1;width1: 50%; justify-content: center;" >
+          <div class-="p-l-10 p-r-10 p-lr-0-lg">
+            <div th:each="shareImg : ${share.shareImgDtoList}" class="food-img">
+              <img th:if="${not #strings.isEmpty(shareImg.imgUrl)}" th:src="${shareImg.imgUrl}"
+                   class="rounded mgb-15" width="400">
+            </div>
+          </div>
+        </div>
+        <!--======================Right파트(레시피 상세정보)===================================-->
+        <div class="col md-4 p-b--30" style="flex-grow: 1;" >
+          <div class="p-r-10 p-t-5 p-lr-0-lg">
+            <input type="hidden" id="shareId" th:value="${share.id}">
+            <h4 style="margin:10px; text-align:center;" th:text="${share.foodNm}"></h4>
+            <button class="btn btn-primary">찜</button>
+            <div>
+              <h5>Ingredients</h5>
+              <div class="ingredients">
+                <p class="ptag" th:text="${share.ingredients}"></p>
+              </div>
+            </div>
+            <div>
+              <h5>Recipe</h5>
+              <div class="recipe">
+                <p class="ptag" th:text="${share.recipe}"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--===============================================================================-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--======================메인끝!========================================================-->
+<footer class="mt-5 py-5 bg-dark">
+  <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Our Recipe 2022</p></div>
+</footer>
+</body>
+</html>

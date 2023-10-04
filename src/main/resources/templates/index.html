@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/layout1}">
+<link href="https://fonts.googleapis.com/css?family=Varela+Round" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+<body id="page-top">
+<div layout:fragment="content">
+<!-- Masthead-->
+<header class="masthead">
+    <div class="container px-4 px-lg-5 d-flex h-100 align-items-center justify-content-center">
+        <div class="d-flex justify-content-center">
+            <div class="text-center">
+                <h1 class="mx-auto my-0 text-uppercase">Our Recipe</h1>
+                <h2 class="text-white-50 mx-auto mt-2 mb-5">여러분만의 특별한 레시피를 공유해주세요.<br>Share your special recipe for your friends!</h2>
+                <a class="btn btn-primary" href="/browse/category">레시피 보러가기</a>
+                <a class="btn btn-primary" href="/share/posting">레시피 공유하기</a>
+            </div>
+            </div>
+    </div>
+</header>
+
+    <!-- About-->
+
+    <section class="about-section text-center" id="about">
+<br>
+                    <h2 class="text-white mb-4">About us</h2>
+        <!-- Contact-->
+        <section class="contact-section">
+            <div class="container px-4 px-lg-5">
+                <div class="row gx-4 gx-lg-5">
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <h4 class="text-uppercase m-0">Exploring</h4>
+                                <hr class="my-4 mx-auto" />
+                                <div class="small text-black-50">친구들의 레시피를 종류별로 탐색해보세요!</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <h4 class="text-uppercase m-0">Sharing</h4>
+                                <hr class="my-4 mx-auto" />
+                                <div class="small text-black-50">여러분만의 레시피를 공유해주세요!</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 mb-3 mb-md-0">
+                        <div class="card py-4 h-100">
+                            <div class="card-body text-center">
+                                <h4 class="text-uppercase m-0">Cooking</h4>
+                                <hr class="my-4 mx-auto" />
+                                <div class="small text-black-50">맛있는 요리를 만들어보세요!</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+    </section>
+    </section>
+</div>
+
+</body>
+</html>

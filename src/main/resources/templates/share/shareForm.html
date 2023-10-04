@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Sharing</title>
+    <!-- 아이콘 -->
+    <link rel="icon" type="image/x-icon" th:href="@{assets/favicon.ico}" />
+    <!-- 부트스트랩 아이콘 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <th:block layout:fragment="css">
+        <link th:href="@{/css/browsestyles.css}" rel="stylesheet" />
+    </th:block>
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script th:src="@{/js/scripts2.js}"></script>
+    <script th:src="@{/js/scripts.js}"></script>
+
+    <!--사용자 스크립터 추가-->
+    <th:block block layout:fragment="script">
+        <script th:inline="javascript">
+          $(document).ready(function(){
+        var errorMessage = [[${errorMessage}]];
+        if(errorMessage != null){
+        alert(errorMessage);
+        }
+        bindDomEvent();
+        });
+
+        function bindDomEvent(){
+        $(".custom-file-input").on("change",function(){
+        var fileName = $(this).val().split("\\").pop();
+        var fileExt = fileName.substring(fileName.lastIndexOf(".")+1);
+        // 확장자 추출
+        fileExt = fileExt.toLowerCase(); // 소문자 소환
+
+        if(fileExt != "jpg" && fileExt != "jpeg" && fileExt != "gif"
+        && fileExt != "png" && fileExt != "bmp"){
+        alert("이미지 파일만 등록이 가능합니다.");
+        return;
+        }
+        else{
+          alert("레시피가 등록 되었습니다.");
+        }
+        $(this.siblings(".custom-file-label").html(fileName));
+        });
+
+          function page(page){
+        var searchDateType = $("#searchDateType").val();
+        var searchSellStatus = $("#searchSellStatus").val();
+        var searchBy = $("#searchBy").val();
+        var searchQuery = $("#searchQuery").val();
+
+        location.href="/mypage/myrecipe/" + page + "?searchDateType=" + searchDateType
+        + "&searchSellStatus=" + searchSellStatus + "&searchBy=" + searchBy
+        + "&searchQuery=" + searchQuery;
+        }
+      }
+           function functionAlert1(){
+      alert("저장이 완료되었습니다.");
+      }
+      function functionAlert2(){
+      alert("수정이 완료되었습니다.");
+      }
+        function functionAlert3(){
+      alert("삭제가 완료되었습니다.");
+      }
+    </script>
+    </th:block>
+
+    <!-- 사용자 CSS 추가-->
+    <th:block layout:fragment="css">
+        <link th:href="@{/css/viewstyles.css}" rel="stylesheet" />
+        <style>
+
+        .input-group{
+        margin-bottom : 15px
+        }
+        .img-div{
+        margin-bottom : 18px
+        }
+        .fieldError{
+        color : #bd2130;
+        }
+        .all-group{
+        width : 1000px;
+        margin : center;
+        align : center;
+        display: block;
+        margin-left: 30%;
+        margin-right: 45%;
+        vertical-align: middle;
+        }
+        .custom-select{
+        color : gray;
+        padding : 3.5px;
+        border-style : hidden;
+        margin-left: 30%;
+        margin-right: 45%;
+        }
+        .whole-group{
+        padding : 30px;
+        margin-left: 5%
+        margin-right: 5%;
+        }
+        .custom-file-input{
+        font-size: 0.9rem;
+
+        }
+        .img-group{
+        margin-left: 20%;
+        margin-right: 45%;
+        }
+
+        .delete{
+        position: relative;
+        top: 10px;
+        }
+
+    </style>
+    </th:block>
+</head>
+<body>
+<!-- Navigation-->
+<div th:replace="fragments/header::header"></div>
+<div layout:fragment="content">
+    <form role="form" method="post" enctype="multipart/form-data" th:object="${shareFormDto}">
+
+        <!--헤더-->
+        <header class="py-5" style="background-color:#8DC4C0">
+            <div class="container px-4 px-lg-5 my-5" >
+                <div class="text-center text-white">
+                    <h1 class="display-4 fw-bolder" >여러분들만의 레시피를 공유해주세요!</h1>
+                    <p class="lead fw-normal text-white-50 mb-0">Let your friends know your own recipes!</p>
+                </div>
+            </div>
+        </header>
+        <div class="whole-group" style="border: 7px double #8DC4C0;">
+            <input type="hidden" th:field="*{id}">
+            <br>
+            <div class="all-group">
+                <div class="form-group">
+                    <select th:field="*{category}" class="custom-select">
+                        <option value="category">category</option>
+                        <option value="KOREAN_FOOD">한식</option>
+                        <option value="CHINESE_FOOD">중식</option>
+                        <option value="WESTERN_FOOD">양식</option>
+                        <option value="JAPANESE_FOOD">일식</option>
+                        <option value="VEGAN_FOOD">비건</option>
+                        <option value="DIET_FOOD">다이어트</option>
+                        <option value="DESSERT">디저트</option>
+                        <option value="DRINKS">음료</option>
+                    </select>
+                </div>
+                <br>
+                <br>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class ="input-group-text">음식명</span>
+                    </div>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    <input type="text" th:field="*{foodNm}" class="form-control"
+                           placeholder="음식의 이름을 입력해주세요.">
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class ="input-group-text">재료들</span>
+                    </div>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    <textarea class="form-control" placeholder="재료들을 작성해주세요." aria-label="With textarea" th:field="*{ingredients}">
+            </textarea>
+                </div>
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class ="input-group-text">레시피</span>
+                    </div>
+                    &nbsp;
+                    &nbsp;
+                    &nbsp;
+                    <textarea class="form-control" placeholder="레시피를 작성해주세요." aria-label="With textarea" th:field="*{recipe}">
+            </textarea>
+                </div>
+                &nbsp;
+                <br>
+                <div class="img-group">
+                    <div th:if="${#lists.isEmpty(shareFormDto.shareImgDtoList)}">
+                        <div class="input2-group" th:each="num: ${#numbers.sequence(1,1)}">
+                            <div class="custom-file img-div">
+                                <input type="file" class="custom-file-input" name="shareImgFile">
+                                <label class="custom-file-label" th:text="Img+ ${num}"></label>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${not #lists.isEmpty(shareFormDto.shareImgDtoList)}">
+                        <div class="input2-group" th:each="shareImgDto, status: ${shareFormDto.shareImgDtoList}">
+                            <div class="custom-file img-div">
+                                <input type="file" class="custom-file-input" name="shareImgFile">
+                                <input type="hidden" name="shareImgIds" th:value="${shareImgDto.id}">
+                                <label class="custom-file-label"
+                                       th:text="${not #strings.isEmpty(shareImgDto.oriImgName)} ?
+                                       ${shareImgDto.oriImgName} : 'Img'+ ${status.index+1}"></label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div th:if="${#strings.isEmpty(shareFormDto.id)}" style="text-align : center">
+                    <button th:formacton="@{/share/posting}" type="submit" class="btn btn-primary"
+                            onclick="functionAlert1()" value="저장이 완료되었습니다.">저장</button>
+                </div>
+                <div th:unless="${#strings.isEmpty(shareFormDto.id)}" style="text-align : center">
+
+                    <button th:formaction="@{'/share/posting/'+${shareFormDto.id}}" type="submit"
+                            class="btn btn-primary" onclick="functionAlert2()" value="수정이 완료되었습니다.">수정</button>
+                    <button th:formaction="@{'/share/deleteRecipe/'+${shareFormDto.id}}" type="submit"
+                            class="btn btn-primary delete" onclick="functionAlert3()" value="삭제가 완료되었습니다.">삭제</button>
+                </div>
+                <br>
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+            </div>
+        </div>
+    </form>
+</div>
+<div th:replace="fragments/footer::footer"></div>
+</body>
+</html>
